@@ -1,0 +1,18 @@
+body {
+  margin: 0;
+}
+
+#cesiumContainer {
+  background: gray;
+  height: 100vh;
+  width: 100%;
+}
+
+.action {
+  position: absolute;
+  display: flex;
+  gap: 10px;
+  top: 10px;
+  left: 10px;
+  z-index: 999;
+}
