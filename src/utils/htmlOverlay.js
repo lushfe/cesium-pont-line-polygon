@@ -3,17 +3,27 @@ import * as Cesium from "cesium";
 export default function htmlOverlay({
   id,
   viewer,
-  selectors,
+  elementId,
   container = document.body,
   position,
   horizontalOrigin = Cesium.HorizontalOrigin.BOTTOM,
   verticalOrigin = Cesium.VerticalOrigin.CENTER,
   offset = { x: 0, y: 0 },
+  data = {},
+  onClick = () => {},
 } = {}) {
-  const htmlOverlay = document.querySelector(selectors);
+  const clonedId = `${elementId}-${id}`;
+  if (document.getElementById(clonedId)) {
+    return;
+  }
+  const htmlOverlay = document.getElementById(elementId);
   const clonedElement = htmlOverlay.cloneNode(true);
-  clonedElement.id = `${htmlOverlay.id}-${id}`;
+  clonedElement.id = clonedId;
   clonedElement.style.position = "absolute";
+  clonedElement.setAttribute(`data-row`, JSON.stringify(data));
+  clonedElement.addEventListener("click", function (e) {
+    onClick(e, data);
+  });
 
   // 右上
   if (
@@ -81,20 +91,19 @@ export default function htmlOverlay({
   container.appendChild(clonedElement);
   const scratch = new Cesium.Cartesian2();
   viewer.scene.preRender.addEventListener(function () {
-    const canvasPosition = viewer.scene.cartesianToCanvasCoordinates(
-      position,
-      scratch,
-    );
+    viewer.scene.cartesianToCanvasCoordinates(position, scratch);
     const cameraPosition = viewer.scene.camera.position;
     const ellipsoid = viewer.scene.globe.ellipsoid;
     const occluder = new Cesium.EllipsoidalOccluder(ellipsoid, cameraPosition);
     const isOccluded = occluder.isPointVisible(position);
-    if (Cesium.defined(canvasPosition) && isOccluded) {
-      clonedElement.style.top = `${canvasPosition.y + offset.y}px`;
-      clonedElement.style.left = `${canvasPosition.x + offset.x}px`;
+    if (Cesium.defined(scratch) && isOccluded) {
+      clonedElement.style.top = `${scratch.y + offset.y}px`;
+      clonedElement.style.left = `${scratch.x + offset.x}px`;
       clonedElement.style.display = "block";
     } else {
       clonedElement.style.display = "none";
     }
   });
+
+  return clonedElement;
 }
