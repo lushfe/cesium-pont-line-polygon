@@ -8,7 +8,7 @@ const cesiumBaseUrl = "cesium";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/cesium-pont-line-polygon",
+  base: "",
   define: {
     // Define relative base path in cesium for loading assets
     // https://vitejs.dev/config/shared-options.html#define

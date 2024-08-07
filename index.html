@@ -2,6 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <style>
+      .point1 {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: red;
+        top: 0;
+        left: 0;
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <div class="action">
@@ -10,8 +21,11 @@
       <button id="btn3">面</button>
       <button id="btn4">获取坐标</button>
       <button id="btn5">取消绘制</button>
+      <br />
+      <button id="btn6">添加一个html元素</button>
     </div>
     <div id="cesiumContainer"></div>
     <script type="module" src="/src/main.js"></script>
+    <div id="point1" class="point1"></div>
   </body>
 </html>

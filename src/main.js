@@ -1,5 +1,6 @@
 import * as Cesium from "cesium";
 import Draw from "./utils/draw.js";
+import htmlOverlay from "./utils/htmlOverlay.js";
 import "cesium/Build/Cesium/Widgets/widgets.css";
 import "./style.css";
 
@@ -54,8 +55,8 @@ btn4.onclick = () => {
   draw3.deactivate();
 
   console.log("点", draw1.points);
-  console.log("线",draw2.points);
-  console.log("面",draw3.points);
+  console.log("线", draw2.points);
+  console.log("面", draw3.points);
 };
 
 btn5.onclick = () => {
@@ -63,3 +64,17 @@ btn5.onclick = () => {
   draw2.deactivate();
   draw3.deactivate();
 }; // 取消
+
+// 绘制 html
+btn6.onclick = () => {
+  htmlOverlay({
+    id: "111",
+    viewer: window.viewer,
+    selectors: "#point1",
+    position: Cesium.Cartesian3.fromDegrees(
+      115.39700938394914,
+      31.422055522589613,
+      20,
+    ),
+  });
+};
